@@ -1,0 +1,7 @@
+mineru[core]
+litserve
+fastapi
+uvicorn
+loguru
+aiohttp
+apscheduler
