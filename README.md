@@ -24,7 +24,7 @@ python server.py
 python client.py
 ```
 
-Now, pdf files under folder [demo](../../demo/) will be processed in parallel. Assuming you have 2 gpus, if you change the `workers_per_device` to `2`, 4 pdf files will be processed at the same time!
+Now, pdf files under folder [pdfs](./pdfs/) will be processed in parallel. Assuming you have 2 gpus, if you change the `workers_per_device` to `2`, 4 pdf files will be processed at the same time!
 
 ## Parsed File Retrival
 

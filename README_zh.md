@@ -26,7 +26,7 @@ python server.py
 python client.py
 ```
 
-现在，`[demo](../../demo/)` 文件夹下的PDF文件将并行处理。假设您有2个GPU，如果您将 `workers_per_device` 更改为 `2`，则可以同时处理4个PDF文件！
+现在，[pdfs](./pdfs/) 文件夹下的PDF文件将并行处理。假设您有2个GPU，如果您将 `workers_per_device` 更改为 `2`，则可以同时处理4个PDF文件！
 
 ## 检索已解析文件
 
