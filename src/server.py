@@ -48,25 +48,21 @@ class MinerUAPI(ls.LitAPI):
                 os.environ['MINERU_VIRTUAL_VRAM_SIZE'] = '1'
         logger.info(f"MINERU_VIRTUAL_VRAM_SIZE: {os.environ['MINERU_VIRTUAL_VRAM_SIZE']}")
 
-        # Use the model source set by the container startup script
-        model_source = os.getenv('MINERU_MODEL_SOURCE', 'local')
-        logger.info(f"Using model source: {model_source}")
-        
-        # Configure endpoint if using remote sources
-        if model_source in ['huggingface', 'modelscope']:
-            config_endpoint()
+        config_endpoint()
+        logger.info(f"Using model source: {os.environ['MINERU_MODEL_SOURCE']}")
 
 
     def decode_request(self, request):
         """Decode file and options from request"""
         file_b64 = request['file']
+        file_key = request.get('file_key', None)
         options = request.get('options', {})
         
         file_bytes = base64.b64decode(file_b64)
         
         return {
             'pdf_bytes': file_bytes,
-            'file_key': options.get('file_key', str(uuid.uuid4())),
+            'file_key': file_key if file_key else str(uuid.uuid4()),
             # === MinerU Custom Options ===
             'backend': options.get('backend', 'pipeline'),
             'method': options.get('method', 'auto'),
@@ -83,6 +79,8 @@ class MinerUAPI(ls.LitAPI):
         file_key = inputs['file_key']
         pdf_bytes = inputs['pdf_bytes']
         output_dir = self.output_dir / file_key
+
+        logger.info(f"Processing file: {file_key}, output_dir: {output_dir}")
         
         try:
             os.makedirs(output_dir, exist_ok=True)

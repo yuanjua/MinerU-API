@@ -71,21 +71,6 @@ POST /predict
 }
 ```
 
-**Example `jq` command:**
-```bash
-jq -n \
-   --arg file_key "my_document_key" \
-   --argjson options '{"backend": "pipeline", "lang": "en", "method": "auto", "formula_enable": true, "table_enable": true}' \
-   --rawfile file_data ./example/pdfs/demo1.pdf \
-   '{
-      "file": ($file_data | @base64),
-      "options": $options,
-      "file_key": $file_key
-    }' | curl -X POST http://127.0.0.1:24008/predict \
-             -H "Content-Type: application/json" \
-             -d @-
-```
-
 ### /download
 
 This endpoint allows retrieval of processed files.
@@ -104,13 +89,11 @@ You can visit `/download/` route to retrieve the output files. You might want to
 ### Using curl to retrieve files
 
 ```bash
-FILE_KEY=my_document_key
-
 # Download all output as a zip file
-curl -O http://127.0.0.1:8000/download/${FILE_KEY}/all.zip
+curl -O http://127.0.0.1:24008/download/my_document_key/all.zip
 
 # Retrieve only the text content as a markdown file
-curl -O http://127.0.0.1:8000/download/${FILE_KEY}/file.md
+curl -O http://127.0.0.1:24008/download/my_document_key/file.md
 ```
 
 *Generated files are currently hard coded to be removed in 7 days.*

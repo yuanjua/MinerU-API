@@ -20,11 +20,10 @@ RUN export MODEL_SOURCE=$(python3 _config_endpoint.py) && \
     loguru \
     aiohttp \
     apscheduler \
-    --break-system-packages 
-    #&& \
-    # mineru-models-download -s $MODEL_SOURCE -m all
+    --break-system-packages #&& \
+    mineru-models-download -s $MODEL_SOURCE -m pipeline
 
-ENV MINERU_MODEL_SOURCE=modelscope
+ENV MINERU_MODEL_SOURCE=local
 ENV PYTHONPATH=/app
 EXPOSE 24008
 

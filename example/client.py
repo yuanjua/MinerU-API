@@ -50,7 +50,10 @@ async def main(url):
     # Create an aiohttp session to be reused across requests
     async with aiohttp.ClientSession() as session:
         # === Basic Processing ===
-        basic_tasks = [mineru_parse_async(session, file_path) for file_path in files[:2]]
+        basic_task = [mineru_parse_async(session, files[0])]
+
+        # === Pass File Key ===
+        named_task = [mineru_parse_async(session, files[1], file_key='my_document_key')]
 
         # === Custom Options ===
         custom_options = {
@@ -62,7 +65,7 @@ async def main(url):
         custom_tasks = [mineru_parse_async(session, file_path, **custom_options) for file_path in files[2:]]
 
         # Start all tasks
-        all_tasks = basic_tasks + custom_tasks
+        all_tasks = basic_task + named_task + custom_tasks
 
         all_results = await asyncio.gather(*all_tasks)
 

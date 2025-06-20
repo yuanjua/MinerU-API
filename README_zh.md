@@ -73,21 +73,6 @@ POST /predict
 }
 ```
 
-**示例 `jq` 请求:**
-```bash
-jq -n \
-   --arg file_key "my_document_key" \
-   --argjson options '{"backend": "pipeline", "lang": "en", "method": "auto", "formula_enable": true, "table_enable": true}' \
-   --rawfile file_data ./example/pdfs/demo1.pdf \
-   '{
-      "file": ($file_data | @base64),
-      "options": $options,
-      "file_key": $file_key
-    }' | curl -X POST http://127.0.0.1:24008/predict \
-              -H "Content-Type: application/json" \
-              -d @-
-```
-
 ### /download
 
 此端点允许检索已处理的文件。
@@ -106,13 +91,11 @@ GET /download/{file_key}/file.md
 ### 使用 curl 检索文件
 
 ```bash
-FILE_KEY=my_document_key
-
 # 将所有输出下载为 zip 文件
-curl -O http://127.0.0.1:8000/download/${FILE_KEY}/all.zip
+curl -O http://127.0.0.1:24008/download/my_document_key/all.zip
 
 # 仅将文本内容检索为 markdown 文件
-curl -O http://127.0.0.1:8000/download/${FILE_KEY}/file.md
+curl -O http://127.0.0.1:24008/download/my_document_key/file.md
 ```
 
 *生成的文件目前被硬编码为在 7 天后删除。*
