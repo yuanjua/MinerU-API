@@ -16,12 +16,12 @@ uv pip install -r requirements.txt
 
 ### 2. Start the Server
 ```bash
-python server.py
+python src/server.py
 ```
 
 ### 3. Start the example Client
 ```bash
-python client.py
+python src/client.py
 ```
 
 *Now, pdf files under folder [pdfs](./pdfs/) will be processed in parallel. Assuming you have 2 gpus, if you change the `workers_per_device` to `2`, 4 pdf files will be processed at the same time!*

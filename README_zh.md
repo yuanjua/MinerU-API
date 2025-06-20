@@ -17,13 +17,13 @@ uv pip install -r requirements.txt
 ### 2. 启动服务器
 
 ```bash
-python server.py
+python src/server.py
 ```
 
 ### 3. 启动客户端
 
 ```bash
-python client.py
+python src/client.py
 ```
 
 *现在，[pdfs](./pdfs/) 文件夹下的PDF文件将并行处理。假设您有2个GPU，如果您将 `workers_per_device` 更改为 `2`，则可以同时处理4个PDF文件！*
