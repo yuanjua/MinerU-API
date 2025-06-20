@@ -11,4 +11,4 @@ wheels/
 .python-version
 
 # Output
-output/
+*output/
