@@ -4,7 +4,7 @@ from loguru import logger
 import asyncio
 import aiohttp
 
-async def mineru_parse_async(session, file_path, file_key=None, server_url='http://127.0.0.1:8000/predict', **options):
+async def mineru_parse_async(session, file_path, file_key=None, server_url='http://127.0.0.1:24008', **options):
     """
     Asynchronous version of the parse function.
     """
@@ -20,7 +20,7 @@ async def mineru_parse_async(session, file_path, file_key=None, server_url='http
         }
 
         # Use the aiohttp session to send the request
-        async with session.post(server_url, json=payload) as response:
+        async with session.post(server_url + '/predict', json=payload) as response:
             if response.status == 200:
                 result = await response.json()
                 logger.info(f"✅ Processed: {file_path} -> {result.get('output_dir', 'N/A')}")
@@ -35,7 +35,7 @@ async def mineru_parse_async(session, file_path, file_key=None, server_url='http
         return {'error': str(e)}
 
 
-async def main():
+async def main(url):
     """
     Main function to run all parsing tasks concurrently.
     """
@@ -72,4 +72,9 @@ async def main():
     logger.info("🎉 All processing completed!")
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--url', type=str, default='http://127.0.0.1:24008')
+    args = parser.parse_args()
+
+    asyncio.run(main(args.url))
