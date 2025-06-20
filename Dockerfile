@@ -1,4 +1,9 @@
-FROM pytorch/pytorch:2.7.0-cuda12.8-cudnn9-runtime
+FROM pytorch/pytorch:2.7.1-cuda12.6-cudnn9-runtime
+
+RUN apt-get update && apt-get install -y libgl1-mesa-glx \
+    libsm6 libxext6 libxrender-dev libfontconfig1 libxft2 libfreetype6 libglib2.0-0 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY src/server.py .
@@ -15,14 +20,15 @@ RUN export MODEL_SOURCE=$(python3 _config_endpoint.py) && \
     loguru \
     aiohttp \
     apscheduler \
-    --break-system-packages && \
-    mineru-models-download -s $MODEL_SOURCE -m all
+    --break-system-packages 
+    #&& \
+    # mineru-models-download -s $MODEL_SOURCE -m all
 
-ENV MINERU_MODEL_SOURCE=local
+ENV MINERU_MODEL_SOURCE=modelscope
 ENV PYTHONPATH=/app
 EXPOSE 24008
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD curl -f http://localhost:24008/health || exit 1
 
 ENTRYPOINT ["python3", "server.py", "--port", "24008"]
