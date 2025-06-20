@@ -53,7 +53,7 @@ docker build -t mineru-api:v2.0 .
 
 ### Run Container
 ```
-docker run -d \
+docker run -d --gpus all \
     -p 24008:24008 \
     -v mineru-api:/app/output \
     mineru-api:v2.0

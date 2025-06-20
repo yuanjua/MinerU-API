@@ -1,4 +1,4 @@
-FROM lmsysorg/sglang:v0.4.7-cu124
+FROM pytorch/pytorch:2.7.0-cuda12.8-cudnn9-runtime
 
 WORKDIR /app
 COPY src/server.py .
@@ -13,6 +13,7 @@ RUN export MODEL_SOURCE=$(python3 _config_endpoint.py) && \
     fastapi \
     uvicorn \
     loguru \
+    aiohttp \
     apscheduler \
     --break-system-packages && \
     mineru-models-download -s $MODEL_SOURCE -m all

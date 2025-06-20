@@ -1,4 +1,5 @@
 mineru[core]
+requests
 litserve
 fastapi
 uvicorn
