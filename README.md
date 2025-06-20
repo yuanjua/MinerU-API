@@ -47,7 +47,7 @@ curl -O http://127.0.0.1:8000/download/{file_key}/file.md
 ### Build Image
 
 ```
-docker build -t mineru-api:v2.0 ./MinerU-API
+docker build -t mineru-api:v2.0 .
 ```
 *Builds the Docker image for MinerU API.*
 

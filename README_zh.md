@@ -49,7 +49,7 @@ curl -O http://127.0.0.1:8000/download/{file_key}/file.md
 ### 构建镜像
 
 ```bash
-docker build -t mineru-api:v2.0 ./MinerU-API
+docker build -t mineru-api:v2.0 .
 ```
 *构建 MinerU API Docker 镜像。*
 
