@@ -1,7 +1,6 @@
 import requests
 import os
 import logging
-import socket
 
 logging.basicConfig(level=logging.INFO)
 
@@ -31,7 +30,7 @@ def config_endpoint():
                 logging.warning(f"Hugging Face endpoint returned a non-200 status code: {response.status_code}")
 
         except requests.exceptions.RequestException as e:
-            logging.error(f"Failed to connect to Hugging Face at {model_list_url}: {e}")
+            logging.info(f"Failed to connect to Hugging Face at {model_list_url}: {e}")
 
         # If any of the above checks fail, switch to modelscope
         logging.info("Falling back to 'modelscope' as model source.")
@@ -44,7 +43,7 @@ def config_endpoint():
                 logging.info(f"Successfully connected to ModelScope. Using 'modelscope' as model source.")
                 return True
         except requests.exceptions.RequestException as e:
-            logging.error(f"Failed to connect to ModelScope at {model_list_url}: {e}")
+            logging.info(f"Failed to connect to ModelScope at {model_list_url}: {e}")
         
     elif os.environ['MINERU_MODEL_SOURCE'] == 'local':
         logging.info("Using 'local' as model source.")
@@ -56,21 +55,6 @@ def config_endpoint():
     
     return False
 
-def get_self_ip_address():
-    """
-    Get the IP address of the current server.
-    """
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        host_ip = s.getsockname()[0]
-        s.close()
-        return host_ip
-    except Exception as e:
-        return None
-
 if __name__ == '__main__':
     config_endpoint()
-    ip_address = get_self_ip_address()
-    print(f"IP address: {ip_address}")
-    exit(f"{os.environ['MINERU_MODEL_SOURCE']}")
+    print(os.environ['MINERU_MODEL_SOURCE'])
