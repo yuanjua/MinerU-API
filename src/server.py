@@ -48,10 +48,6 @@ class MinerUAPI(ls.LitAPI):
                 os.environ['MINERU_VIRTUAL_VRAM_SIZE'] = '1'
         logger.info(f"MINERU_VIRTUAL_VRAM_SIZE: {os.environ['MINERU_VIRTUAL_VRAM_SIZE']}")
 
-        config_endpoint()
-        logger.info(f"Using model source: {os.environ['MINERU_MODEL_SOURCE']}")
-
-
     def decode_request(self, request):
         """Decode file and options from request"""
         file_b64 = request['file']
@@ -117,8 +113,12 @@ class MinerUAPI(ls.LitAPI):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--port', type=int, default=24008)
+    parser.add_argument('--port', '-p', type=int, default=24008)
     args = parser.parse_args()
+
+    if not os.getenv('MINERU_MODEL_SOURCE', None):
+        config_endpoint()
+    logger.info(f"Using model source: {os.environ['MINERU_MODEL_SOURCE']}")
 
     server = ls.LitServer(
         MinerUAPI(),
